@@ -65,6 +65,7 @@ class Segment(Point):
     """
     Class of segment
     """
+
     def __init__(self, point_1, point_2):
         """
         A method for defining an instance using two points from another class
@@ -94,6 +95,8 @@ class CoordinateSystem(Segment):
     """
     The class of the coordinate system or plane
     """
+    segments = []
+
     def __init__(self, point_1, point_2):
         """
         Method for defining an instance of a list of segments
@@ -101,23 +104,25 @@ class CoordinateSystem(Segment):
         :param point_2: the tuple with coordinates
         """
         sgmnt = super().__init__(point_1, point_2)
-        self.segments = [sgmnt]
+        CoordinateSystem.segments.append(sgmnt)
 
-    def add_segment(self, segment):
+    @classmethod
+    def add_segment(cls, segment):
         """
         The method of adding a segment to a plane
         :param segment: a list with segments
         """
-        self.segments.append(segment)
+        cls.segments.append(segment)
 
-    def axis_intersection(self):
+    @classmethod
+    def axis_intersection(cls):
         """
         A method that determines the number of segments intersecting only one ordinate axis
         :return: the number of segments that intersect the plane
         """
         count = 0
-        for segment in self.segments:
-            if (segment.point_1.coordinates[0] * segment.point_2.coordinates[0]) < 0 or \
+        for segment in cls.segments:
+            if (segment.point_1.coordinates[0] * segment.point_2.coordinates[0]) < 0 != \
                     (segment.point_1.coordinates[1] * segment.point_2.coordinates[1]) < 0:
                 count += 1
                 segment.one_intersection = True
